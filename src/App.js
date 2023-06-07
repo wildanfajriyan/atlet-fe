@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AtletList from "./components/AtletList";
 import EditAtlet from "./components/EditAtlet";
+import AddAtlet from "./components/AddAtlet";
 
 function App() {
   const [atlet, setAtlet] = useState([]);
@@ -41,7 +42,8 @@ function App() {
               />
             }
           />
-          <Route path="edit/:id" element={<EditAtlet />} />
+          <Route path="/add" element={<AddAtlet />} />
+          <Route path="/edit/:id" element={<EditAtlet />} />
         </Routes>
       </BrowserRouter>
     </div>

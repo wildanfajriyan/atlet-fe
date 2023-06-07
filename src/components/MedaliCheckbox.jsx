@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   const [medaliFilter, setMedaliFilter] = useState([]);
-  const [jenisKelaminFilter, setJenisKelaminFilter] = useState('');
+  const [jenisKelaminFilter, setJenisKelaminFilter] = useState("");
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,15 +13,15 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   // const selectedMedalFromUrl = urlParams.get('medali');
 
   useEffect(() => {
-    const selectedMedalFromUrl = urlParams.get('medali');
-    const selectedGenderFromUrl = urlParams.get('jenisKelamin');
+    const selectedMedalFromUrl = urlParams.get("medali");
+    const selectedGenderFromUrl = urlParams.get("jenisKelamin");
 
     if (selectedMedalFromUrl) {
-      setMedaliFilter(selectedMedalFromUrl.split(','));
+      setMedaliFilter(selectedMedalFromUrl.split(","));
     }
 
     if (selectedGenderFromUrl) {
-      setJenisKelaminFilter(selectedGenderFromUrl.split(','));
+      setJenisKelaminFilter(selectedGenderFromUrl.split(","));
     }
 
     // getAtletByMedali();
@@ -30,7 +30,7 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
         const params = {};
 
         if (medaliFilter.length > 0) {
-          params.medali = medaliFilter.join(',');
+          params.medali = medaliFilter.join(",");
         }
 
         if (jenisKelaminFilter) {
@@ -42,14 +42,14 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
             ([key, value]) =>
               `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
           )
-          .join('&');
+          .join("&");
 
         const url = `http://localhost:5000/atlet?${queryString}`;
         const response = await fetch(url);
         const data = await response.json();
         setAtlet(data); // Use the response data as needed
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -59,9 +59,9 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   const handleCheckboxChange = (event) => {
     const { name, value, checked } = event.target;
 
-    if (name === 'medali') {
+    if (name === "medali") {
       handleMedali(value, checked);
-    } else if (name === 'jk') {
+    } else if (name === "jk") {
       handleJenisKelamin(value, checked);
     }
   };
@@ -75,14 +75,14 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   };
 
   const handleJenisKelamin = (jk, checked) => {
-    setJenisKelaminFilter(checked ? jk : '');
+    setJenisKelaminFilter(checked ? jk : "");
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    urlParams.delete('jenisKelamin');
-    urlParams.delete('medali');
+    urlParams.delete("jenisKelamin");
+    urlParams.delete("medali");
 
     // Create a comma-separated string of selected medals
     // const selectedMedalsString = medaliFilter.join(',');
@@ -92,11 +92,11 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
     // searchParams.set('medali', selectedMedalsString);
 
     if (medaliFilter.length > 0) {
-      urlParams.set('medali', medaliFilter.join(','));
+      urlParams.set("medali", medaliFilter.join(","));
     }
 
     if (jenisKelaminFilter) {
-      urlParams.set('jenisKelamin', jenisKelaminFilter);
+      urlParams.set("jenisKelamin", jenisKelaminFilter);
     }
     getAtlet();
 
@@ -106,66 +106,74 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
   return (
     <div>
+      <Link to='/add'>
+        <button
+          type="submit"
+          className="w-full mb-5 py-3 font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow"
+        >
+          Add Atlet
+        </button>
+      </Link>
       {/* <h1>{medaliFilter.length}</h1> */}
       <form onSubmit={handleSubmit}>
-        <h3 className='mb-2 font-semibold text-gray-900 dark:text-white'>
+        <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
           Medali
         </h3>
-        <ul className='w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white'>
-          <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-            <div className='flex items-center pl-3'>
+        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
               <input
-                id='emas-checkbox'
-                type='checkbox'
-                name='medali'
-                value='emas'
-                checked={medaliFilter.includes('emas')}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+                id="emas-checkbox"
+                type="checkbox"
+                name="medali"
+                value="emas"
+                checked={medaliFilter.includes("emas")}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 onChange={handleCheckboxChange}
               />
               <label
-                for='emas-checkbox'
-                className='w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for="emas-checkbox"
+                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Emas
               </label>
             </div>
           </li>
 
-          <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-            <div className='flex items-center pl-3'>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
               <input
-                id='perak-checkbox'
-                type='checkbox'
-                name='medali'
-                value='perak'
-                checked={medaliFilter.includes('perak')}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+                id="perak-checkbox"
+                type="checkbox"
+                name="medali"
+                value="perak"
+                checked={medaliFilter.includes("perak")}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 onChange={handleCheckboxChange}
               />
               <label
-                for='perak-checkbox'
-                className='w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for="perak-checkbox"
+                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Perak
               </label>
             </div>
           </li>
 
-          <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-            <div className='flex items-center pl-3'>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
               <input
-                id='perunggu-checkbox'
-                name='medali'
-                type='checkbox'
-                value='perunggu'
-                checked={medaliFilter.includes('perunggu')}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+                id="perunggu-checkbox"
+                name="medali"
+                type="checkbox"
+                value="perunggu"
+                checked={medaliFilter.includes("perunggu")}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 onChange={handleCheckboxChange}
               />
               <label
-                for='perunggu-checkbox'
-                className='w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for="perunggu-checkbox"
+                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Perunggu
               </label>
@@ -173,50 +181,54 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
           </li>
         </ul>
 
-        <h3 className='mb-2 mt-5 font-semibold text-gray-900 dark:text-white'>
+        <h3 className="mb-2 mt-5 font-semibold text-gray-900 dark:text-white">
           Jenis Kelamin
         </h3>
-        <ul className='w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white'>
-          <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-            <div className='flex items-center pl-3'>
+        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
               <input
-                id='l-checkbox'
-                name='jk'
-                type='checkbox'
-                value='L'
-                checked={jenisKelaminFilter === 'L'}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+                id="l-checkbox"
+                name="jk"
+                type="checkbox"
+                value="L"
+                checked={jenisKelaminFilter === "L"}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 onChange={handleCheckboxChange}
               />
               <label
-                for='l-checkbox'
-                className='w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for="l-checkbox"
+                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Laki-Laki
               </label>
             </div>
           </li>
-          <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-            <div className='flex items-center pl-3'>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
               <input
-                id='l-checkbox'
-                name='jk'
-                type='checkbox'
-                value='P'
-                checked={jenisKelaminFilter === 'P'}
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+                id="l-checkbox"
+                name="jk"
+                type="checkbox"
+                value="P"
+                checked={jenisKelaminFilter === "P"}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                 onChange={handleCheckboxChange}
               />
               <label
-                for='p-checkbox'
-                className='w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                for="p-checkbox"
+                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 Perempuan
               </label>
             </div>
           </li>
         </ul>
-        <button type='submit' className='mt-5'>
+
+        <button
+          type="submit"
+          className="w-full mt-5 py-3 font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow"
+        >
           Apply Filter
         </button>
       </form>
