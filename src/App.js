@@ -22,7 +22,7 @@ function App() {
   return (
     <div
       style={{
-        width: 1200,
+        width: 1280,
         height: "100vh",
         margin: "auto",
         display: "flex",

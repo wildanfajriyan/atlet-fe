@@ -2,6 +2,19 @@ import { Link } from "react-router-dom";
 import MedaliCheckbox from "./MedaliCheckbox";
 
 const AtletList = ({ setAtlet, getAtlet, atlet }) => {
+
+  const deleteAtlet = async (id) => {
+    try {
+      let res = await fetch(
+        `http://localhost:5000/atlet/${id}`,
+        { method: 'DELETE' }
+      );
+      let result = res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <div>
@@ -72,6 +85,12 @@ const AtletList = ({ setAtlet, getAtlet, atlet }) => {
                       >
                         Edit
                       </Link>
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => deleteAtlet(a.id)}>
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 </>
