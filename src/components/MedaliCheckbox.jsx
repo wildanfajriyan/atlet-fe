@@ -8,7 +8,14 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
     minumur: null,
     maxumur: null,
   });
-
+  const [tinggiFilter, settinggiFilter] = useState({
+    mintinggi: null,
+    maxtinggi: null,
+  });
+  const [beratFilter, setberatFilter] = useState({
+    minberat: null,
+    maxberat: null,
+  });
   const location = useLocation();
   const navigate = useNavigate();
   // Extract the "medal" parameter from the URL search params
@@ -44,11 +51,27 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
         }
 
         if (umurFilter.minumur) {
-          params.minumur = umurFilter.minumur
+          params.minumur = umurFilter.minumur;
         }
 
         if (umurFilter.maxumur) {
-          params.maxumur = umurFilter.maxumur
+          params.maxumur = umurFilter.maxumur;
+        }
+
+        if (tinggiFilter.maxtinggi) {
+          params.maxtinggi = tinggiFilter.maxtinggi;
+        }
+
+        if (tinggiFilter.mintinggi) {
+          params.mintinggi = tinggiFilter.mintinggi;
+        }
+
+        if (beratFilter.maxberat) {
+          params.maxberat = beratFilter.maxberat;
+        }
+
+        if (beratFilter.minberat) {
+          params.minberat = beratFilter.minberat;
         }
 
         const queryString = Object.entries(params)
@@ -97,8 +120,12 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
     urlParams.delete("jenisKelamin");
     urlParams.delete("medali");
-    urlParams.delete("minumur")
-    urlParams.delete("maxumur")
+    urlParams.delete("minumur");
+    urlParams.delete("maxumur");
+    urlParams.delete("mintinggi");
+    urlParams.delete("maxtinggi");
+    urlParams.delete("minberat");
+    urlParams.delete("maxberat");
 
     // Create a comma-separated string of selected medals
     // const selectedMedalsString = medaliFilter.join(',');
@@ -116,11 +143,27 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
     }
 
     if (umurFilter.minumur) {
-      urlParams.set("minumur", umurFilter.minumur)
+      urlParams.set("minumur", umurFilter.minumur);
     }
 
     if (umurFilter.maxumur) {
-      urlParams.set("maxumur", umurFilter.maxumur)
+      urlParams.set("maxumur", umurFilter.maxumur);
+    }
+
+    if (tinggiFilter.mintinggi) {
+      urlParams.set("mintinggi", tinggiFilter.mintinggi);
+    }
+
+    if (tinggiFilter.maxtinggi) {
+      urlParams.set("maxtinggi", tinggiFilter.maxtinggi);
+    }
+
+    if (beratFilter.minberat) {
+      urlParams.set("minberat", beratFilter.minberat);
+    }
+
+    if (beratFilter.maxberat) {
+      urlParams.set("maxberat", beratFilter.maxberat);
     }
 
     getAtlet();
@@ -131,6 +174,8 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
   return (
     <div>
+      
+
       <Link to="/add">
         <button
           type="submit"
@@ -141,8 +186,6 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
       </Link>
       {/* <h1>{medaliFilter.length}</h1> */}
       <form onSubmit={handleSubmit}>
-
-
         {/* Filter Medal */}
         <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
           Medali
@@ -236,6 +279,84 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
                 value={umurFilter.maxumur}
                 onChange={(e) =>
                   setUmurFilter({ ...umurFilter, maxumur: e.target.value })
+                }
+              />
+            </div>
+          </li>
+        </ul>
+
+        {/* Filter Height */}
+        <h3 className="mb-2 mt-5 font-semibold text-gray-900 dark:text-white">
+          Tinggi
+        </h3>
+        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Minimal tinggi"
+                className="p-2"
+                value={tinggiFilter.mintinggi}
+                onChange={(e) =>
+                  settinggiFilter({
+                    ...tinggiFilter,
+                    mintinggi: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </li>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Maximal tinggi"
+                className="p-2"
+                value={tinggiFilter.maxtinggi}
+                onChange={(e) =>
+                  settinggiFilter({
+                    ...tinggiFilter,
+                    maxtinggi: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </li>
+        </ul>
+
+        {/* Filter Weight */}
+        <h3 className="mb-2 mt-5 font-semibold text-gray-900 dark:text-white">
+          Berat
+        </h3>
+        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Minimal berat"
+                className="p-2"
+                value={beratFilter.minberat}
+                onChange={(e) =>
+                  setberatFilter({
+                    ...beratFilter,
+                    minberat: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </li>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Maximal berat"
+                className="p-2"
+                value={beratFilter.maxberat}
+                onChange={(e) =>
+                  setberatFilter({
+                    ...beratFilter,
+                    maxberat: e.target.value,
+                  })
                 }
               />
             </div>
