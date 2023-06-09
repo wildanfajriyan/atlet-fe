@@ -4,6 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   const [medaliFilter, setMedaliFilter] = useState([]);
   const [jenisKelaminFilter, setJenisKelaminFilter] = useState("");
+  const [umurFilter, setUmurFilter] = useState({
+    minumur: null,
+    maxumur: null,
+  });
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,6 +19,8 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
   useEffect(() => {
     const selectedMedalFromUrl = urlParams.get("medali");
     const selectedGenderFromUrl = urlParams.get("jenisKelamin");
+    const selectedMinUmurFromUrl = urlParams.get("minumur");
+    const selectedMaxUmurFromUrl = urlParams.get("maxumur");
 
     if (selectedMedalFromUrl) {
       setMedaliFilter(selectedMedalFromUrl.split(","));
@@ -35,6 +41,14 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
         if (jenisKelaminFilter) {
           params.jenisKelamin = jenisKelaminFilter;
+        }
+
+        if (umurFilter.minumur) {
+          params.minumur = umurFilter.minumur
+        }
+
+        if (umurFilter.maxumur) {
+          params.maxumur = umurFilter.maxumur
         }
 
         const queryString = Object.entries(params)
@@ -83,6 +97,8 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
     urlParams.delete("jenisKelamin");
     urlParams.delete("medali");
+    urlParams.delete("minumur")
+    urlParams.delete("maxumur")
 
     // Create a comma-separated string of selected medals
     // const selectedMedalsString = medaliFilter.join(',');
@@ -98,6 +114,15 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
     if (jenisKelaminFilter) {
       urlParams.set("jenisKelamin", jenisKelaminFilter);
     }
+
+    if (umurFilter.minumur) {
+      urlParams.set("minumur", umurFilter.minumur)
+    }
+
+    if (umurFilter.maxumur) {
+      urlParams.set("maxumur", umurFilter.maxumur)
+    }
+
     getAtlet();
 
     // Update the browser history with the new URL
@@ -106,7 +131,7 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
 
   return (
     <div>
-      <Link to='/add'>
+      <Link to="/add">
         <button
           type="submit"
           className="w-full mb-5 py-3 font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow"
@@ -116,6 +141,9 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
       </Link>
       {/* <h1>{medaliFilter.length}</h1> */}
       <form onSubmit={handleSubmit}>
+
+
+        {/* Filter Medal */}
         <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
           Medali
         </h3>
@@ -181,6 +209,40 @@ const MedaliCheckbox = ({ setAtlet, getAtlet }) => {
           </li>
         </ul>
 
+        {/* Filter Age */}
+        <h3 className="mb-2 mt-5 font-semibold text-gray-900 dark:text-white">
+          Umur
+        </h3>
+        <ul className="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Minimal umur"
+                className="p-2"
+                value={umurFilter.minumur}
+                onChange={(e) =>
+                  setUmurFilter({ ...umurFilter, minumur: e.target.value })
+                }
+              />
+            </div>
+          </li>
+          <li className="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <div className="flex items-center pl-3">
+              <input
+                type="text"
+                placeholder="Maximal umur"
+                className="p-2"
+                value={umurFilter.maxumur}
+                onChange={(e) =>
+                  setUmurFilter({ ...umurFilter, maxumur: e.target.value })
+                }
+              />
+            </div>
+          </li>
+        </ul>
+
+        {/* Filter Gender */}
         <h3 className="mb-2 mt-5 font-semibold text-gray-900 dark:text-white">
           Jenis Kelamin
         </h3>
